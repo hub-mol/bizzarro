@@ -10,4 +10,4 @@ let resizeTimeout;
 window.addEventListener("resize", () => {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(gridBorders, 200);
-});
+});;
