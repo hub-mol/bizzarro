@@ -1,0 +1,31 @@
+steps:
+  # Step 1: Sync local files with the bucket (delete anything in the bucket that's not in the repo)
+  # This makes sure old files are removed.
+  - name: "gcr.io/cloud-builders/gsutil"
+    args:
+      [
+        "-m",
+        "rsync",
+        "-d",
+        "-r",
+        "./",
+        "gs://bizzarro",
+      ]
+    env:
+      - "CLOUDSDK_CORE_DISABLE_PROMPTS=1" # Suppress prompts for gsutil
+
+  # Step 2: Set public read permissions on all files in the bucket
+  - name: "gcr.io/cloud-builders/gsutil"
+    args:
+      [
+        "-m",
+        "acl",
+        "ch",
+        "-u",
+        "AllUsers:R",
+        "-r",
+        "gs://bizzarro",
+      ]
+
+options:
+  logging: CLOUD_LOGGING_ONLY
